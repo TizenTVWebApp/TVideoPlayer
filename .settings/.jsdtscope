@@ -17,7 +17,6 @@
 	<classpathentry kind="con" path="org.tizen.web.project.initializer.TizenLibraryInitializer"/>
 	<classpathentry kind="con" path="org.tizen.web.project.initializer.HTML5LibraryInitializer"/>
 	<classpathentry kind="con" path="org.tizen.web.project.initializer.W3CLibraryInitializer"/>
-	<classpathentry kind="con" path="org.tizen.web.project.initializer.ExtraTizenLibraryInitializer"/>
 	<classpathentry kind="con" path="org.tizen.web.project.initializer.ext.RESTSupport"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

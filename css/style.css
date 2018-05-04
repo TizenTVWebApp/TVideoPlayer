@@ -47,11 +47,11 @@ p {
 }
 
 .left {
-    width: 60%;
+    width: 46%;
 }
 
 .right {
-    width: 40%;
+    width: 54%;
     font-size: 0.9em;
 }
 
@@ -63,6 +63,26 @@ p {
 
 fieldset {
     margin-top: 10px;
+}
+
+#setfullscreen{
+	width:100px;
+	height:50px;
+	border: 2px solid black;
+	background-color:transparent;
+	font-size:20px;
+	color:white;
+}
+#setfullscreen.focused{
+	border:4px solid blue;
+	font-size:25px;	
+    box-sizing: border-box;
+}
+
+#videojsContainner.focused{
+	border:4px solid blue;
+	font-size:25px;	
+    box-sizing: border-box;
 }
 
 #av-player {

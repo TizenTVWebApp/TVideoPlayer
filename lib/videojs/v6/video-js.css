@@ -295,7 +295,7 @@
 .video-js.vjs-4-3 {
   width: 100%;
   max-width: 100%;
-  height: 0; }
+  height: 100%; }
 
 .video-js.vjs-16-9 {
   padding-top: 56.25%; }
@@ -332,7 +332,9 @@ body.vjs-full-window {
 .video-js.vjs-fullscreen {
   width: 100% !important;
   height: 100% !important;
-  padding-top: 0 !important; }
+  padding-top: 0 !important;
+  font-size:20px !important;;
+   }
 
 .video-js.vjs-fullscreen.vjs-user-inactive {
   cursor: none; }
@@ -601,9 +603,9 @@ body.vjs-full-window {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3.0em;
-  background-color: #2B333F;
-  background-color: rgba(43, 51, 63, 0.7); }
+  height: 10%;/*height: 3.0em;*/
+  background-color: transparent /*#2B333F;*/
+  /*background-color: rgba(43, 51, 63, 0.7); */}
 
 .vjs-has-started .vjs-control-bar {
   display: -webkit-box;
@@ -645,7 +647,7 @@ body.vjs-full-window {
   margin: 0;
   padding: 0;
   height: 100%;
-  width: 4em;
+  width: 5%;
   -webkit-box-flex: none;
   -moz-box-flex: none;
   -webkit-flex: none;
@@ -654,7 +656,8 @@ body.vjs-full-window {
 
 .vjs-button > .vjs-icon-placeholder:before {
   font-size: 1.8em;
-  line-height: 1.67; }
+  line-height: 3; 
+  }
 
 .video-js .vjs-control:focus:before,
 .video-js .vjs-control:hover:before,
@@ -771,16 +774,23 @@ body.vjs-full-window {
   visibility: hidden;
   z-index: 1; }
 
-.video-js .vjs-progress-holder:focus .vjs-time-tooltip {
-  display: none; }
+.video-js .vjs-progress-holder:focus .vjs-time-tooltip
+ {
+  display: none;
+  font-size: 0.6em;
+  visibility: visible;
+  }
 
 .video-js .vjs-progress-control:hover .vjs-time-tooltip,
-.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip {
+.video-js .vjs-progress-control.hover .vjs-time-tooltip,
+.video-js .vjs-progress-control:hover .vjs-progress-holder:focus .vjs-time-tooltip,
+.video-js .vjs-progress-control.hover .vjs-progress-holder:focus .vjs-time-tooltip {
   display: block;
   font-size: 0.6em;
   visibility: visible; }
 
-.video-js .vjs-progress-control.disabled:hover .vjs-time-tooltip {
+.video-js .vjs-progress-control.disabled:hover .vjs-time-tooltip,
+.video-js .vjs-progress-control.disabled.hover .vjs-time-tooltip {
   font-size: 1em; }
 
 .video-js .vjs-progress-control .vjs-mouse-display {
@@ -794,7 +804,8 @@ body.vjs-full-window {
 .vjs-no-flex .vjs-progress-control .vjs-mouse-display {
   z-index: 0; }
 
-.video-js .vjs-progress-control:hover .vjs-mouse-display {
+.video-js .vjs-progress-control:hover .vjs-mouse-display,
+.video-js .vjs-progress-control.hover .vjs-mouse-display {
   display: block; }
 
 .video-js.vjs-user-inactive .vjs-progress-control .vjs-mouse-display {

@@ -19,142 +19,21 @@
 
         logsEl.scrollTop = logsEl.scrollHeight;
     }
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var audioContext = new AudioContext();
-    var audioInput = null,
-        realAudioInput = null,
-        effectInput = null,
-        wetGain = null,
-        dryGain = null,
-        outputMix = null,
-        currentEffectNode = null,
-        reverbBuffer = null,
-        dtime = null,
-        dregen = null,
-        lfo = null,
-        cspeed = null,
-        cdelay = null,
-        cdepth = null,
-        scspeed = null,
-        scldelay = null,
-        scrdelay = null,
-        scldepth = null,
-        scrdepth = null,
-        fldelay = null,
-        flspeed = null,
-        fldepth = null,
-        flfb = null,
-        sflldelay = null,
-        sflrdelay = null,
-        sflspeed = null,
-        sflldepth = null,
-        sflrdepth = null,
-        sfllfb = null,
-        sflrfb = null,
-        rmod = null,
-        mddelay = null,
-        mddepth = null,
-        mdspeed = null,
-        lplfo = null,
-        lplfodepth = null,
-        lplfofilter = null,
-        awFollower = null,
-        awDepth = null,
-        awFilter = null,
-        ngFollower = null,
-        ngGate = null,
-        bitCrusher = null,
-        btcrBits = 16,   // between 1 and 16
-        btcrNormFreq = 1; // between 0.0 and 1.0
-    var constraints = 
-    {
-      audio: {
-          optional: [{ echoCancellation: false }]
-      }
-    };
-
-    function gotStream(stream) {
-        // Create an AudioNode from the stream.
-//        realAudioInput = audioContext.createMediaStreamSource(stream);
-        var input = audioContext.createMediaStreamSource(stream);
-
-    /*
-        realAudioInput = audioContext.createBiquadFilter();
-        realAudioInput.frequency.value = 60.0;
-        realAudioInput.type = realAudioInput.NOTCH;
-        realAudioInput.Q = 10.0;
-
-        input.connect( realAudioInput );
-    */
-        audioInput = input;
-        /*audioInput = convertToMono( input );
-
-        if (useFeedbackReduction) {
-            audioInput.connect( createLPInputFilter() );
-            audioInput = lpInputFilter;
-            
-        }*/
-        // create mix gain nodes
-        outputMix = audioContext.createGain();
-        dryGain = audioContext.createGain();
-        wetGain = audioContext.createGain();
-        effectInput = audioContext.createGain();
-        audioInput.connect(dryGain);
-       // audioInput.connect(analyser1);
-        audioInput.connect(effectInput);
-        dryGain.connect(outputMix);
-        wetGain.connect(outputMix);
-        outputMix.connect( audioContext.destination);
-       // outputMix.connect(analyser2);
-        //crossfade(1.0);
-       // changeEffect();
-        //cancelAnalyserUpdates();
-        //updateAnalysers();
-    }
-    
-    function initAudio() {
-        /*var irRRequest = new XMLHttpRequest();
-        irRRequest.open("GET", "sounds/cardiod-rear-levelled.wav", true);
-        irRRequest.responseType = "arraybuffer";
-        irRRequest.onload = function() {
-            audioContext.decodeAudioData( irRRequest.response, 
-                function(buffer) { reverbBuffer = buffer; } );
-        }
-        irRRequest.send();
-
-        o3djs.require('o3djs.shader');
-
-        analyser1 = audioContext.createAnalyser();
-        analyser1.fftSize = 1024;
-        analyser2 = audioContext.createAnalyser();
-        analyser2.fftSize = 1024;
-
-        analyserView1 = new AnalyserView("view1");
-        analyserView1.initByteBuffer( analyser1 );
-        analyserView2 = new AnalyserView("view2");
-        analyserView2.initByteBuffer( analyser2 );*/
-
-        if (!navigator.getUserMedia)
-            navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-        if (!navigator.getUserMedia)
-            return(alert("Error: getUserMedia not supported!"));
-
-        navigator.getUserMedia(constraints, gotStream, function(e) {
-                alert('Error getting audio');
-                console.log(e);
-            });
-
-       /* if ((typeof MediaStreamTrack === 'undefined')||(!MediaStreamTrack.getSources)){
-            console.log("This browser does not support MediaStreamTrack, so doesn't support selecting sources.\n\nTry Chrome Canary.");
-        } else {
-            MediaStreamTrack.getSources(gotSources);
-        }
-
-        document.getElementById("effect").onchange=changeEffect;*/
-    }
-    
-
+    ///////////////////////////////////////////////////////////////////////////////////
+    function hasClass( elements,cName ){ 
+    	  return !!elements.className.match( new RegExp( "(\\s|^)" + cName + "(\\s|$)") ); 
+    	}; 
+    	function addClass( elements,cName ){ 
+    	  if( !hasClass( elements,cName ) ){ 
+    	    elements.className += " " + cName; 
+    	  }; 
+    	}; 
+    	function removeClass( elements,cName ){ 
+    	  if( hasClass( elements,cName ) ){ 
+    	    elements.className = elements.className.replace( new RegExp( "(\\s|^)" + cName + "(\\s|$)" ), " " );
+    	  }; 
+    	};
+//////////////////////////////////////////////////////////////////////////////////////////////////
     var player;
 
     // flag to monitor UHD toggling
@@ -197,9 +76,45 @@
     function registerKeyHandler() {
         document.addEventListener('keydown', function (e) {
         	console.log(e.keyCode);
+        	if(player.isFullScreen())return;
             switch (e.keyCode) {
+                case 37:
+                	var curFocused = document.querySelector('.focused');
+                	var nextFocused = document.getElementById(findNextFocusItem(curFocused,'left'));
+                	if(nextFocused){
+                		addClass(nextFocused,'focused');
+                		removeClass(curFocused,'focused');
+                	}
+                	break;
+                case 38:
+                	var curFocused = document.querySelector('.focused');
+                	var nextFocused = document.getElementById(findNextFocusItem(curFocused,'up'));
+                	if(nextFocused){
+                		addClass(nextFocused,'focused');
+                		removeClass(curFocused,'focused');
+                	}
+                	break;
+                case 39:
+                	var curFocused = document.querySelector('.focused');
+                	console.log(curFocused);
+                	var nextFocused = document.getElementById(findNextFocusItem(curFocused,'right'));
+                	if(nextFocused){
+                		addClass(nextFocused,'focused');
+                		removeClass(curFocused,'focused');
+                	}
+                	break;
+                case 40:
+                	var curFocused = document.querySelector('.focused');
+                	var nextFocused = document.getElementById(findNextFocusItem(curFocused,'down'));
+                	if(nextFocused){
+                		addClass(nextFocused,'focused');
+                		removeClass(curFocused,'focused');
+                	}
+                	break;
                 case 13:    // Enter
-                    player.toggleFullscreen();
+                    //player.toggleFullscreen();
+                	var curFocused = document.querySelector('.focused');
+                	curFocused.click();
                     break;
                 case 10252: // MediaPlayPause
                 	//player.playPause();
@@ -223,35 +138,35 @@
                 	player.play();
                     break;
                 case 49: //Key 1
-                	player.setSpeed(1.0);
+                	//player.setSpeed(1.0);
                     //setUhd();
                     break;
                 case 50: //Key 2
-                	player.setSpeed(1.0);
-                	player.setSpeed(2.0);
+                	//player.setSpeed(1.0);
+                	//player.setSpeed(2.0);
                     //player.getTracks();
                     break;
                 case 51: //Key 3
-                	player.setSpeed(1.0);
-                	player.setSpeed(0.5);
+                	//player.setSpeed(1.0);
+                	//player.setSpeed(0.5);
                     //player.getProperties();
                     break;
                 case 52: //Key 4
                 	console.log("4 press");
-                	console.log(player.getBuffered().start(0));
-                	console.log(player.getBuffered().end(0));
-                	console.log(player.getBufferedEnd());
-                	console.log(player.getVideoPlayer());
+                	//console.log(player.getBuffered().start(0));
+                	//console.log(player.getBuffered().end(0));
+                	//console.log(player.getBufferedEnd());
+                	//console.log(player.getVideoPlayer());
                     //player.getProperties();
                     break;
                 case 53: //Key 5
                 	console.log("5 press");
-                	console.log(player.getBufferPercent());
+                	//console.log(player.getBufferPercent());
                     //player.getProperties();
                     break;
                 case 54: //Key 6
                 	console.log("6 press");
-                	console.log(player.getBuffered());
+                	//console.log(player.getBuffered());
                     //player.getProperties();
                     break;
                 case 10009: // Return
@@ -266,9 +181,14 @@
             }
         });
     }
-
+    function findNextFocusItem(divEle,direction){
+    	var div = divEle.getAttribute(direction);
+    	console.log(direction);
+    	console.log(div);
+    	return div;
+    }
     function registerMouseEvents() {
-        document.querySelector('.video-controls .play').addEventListener(
+        /*document.querySelector('.video-controls .play').addEventListener(
             'click',
             function () {
                 player.playPause();
@@ -297,7 +217,7 @@
         document.querySelector('.video-controls .fullscreen').addEventListener(
             'click',
             player.toggleFullscreen
-        );
+        );*/
     }
 
     /**
@@ -360,6 +280,11 @@
             }
         });
 
+        document.getElementById("setfullscreen").addEventListener("click", function(){
+        	player.toggleFullscreen();
+        });
+        console.log(document.getElementById("setfullscreen"));
+        addClass(document.getElementById("setfullscreen"),"focused");
         /**
          * Player configuration object.
          *
@@ -370,8 +295,10 @@
          */
         var config = {
         	//url:'http://www.1ting.com/mv/video/vhd/67174999.flv',
-        	url:'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8',
+        	//url:'http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8',
+        	url:'lib/videojsPlugin/thumbnails/examples/test.mp4',
         	type:'application/x-mpegURL',
+        	//seekvtt:{src:'lib/videojsPlugin/thumbnails/examples/test.vtt'},
             //url: 'http://t010.vod05.icntvcdn.com/media/new/2013/icntv2/media/2017/03/14/HD1Mb7f485084a8840eb9c02fcc2d87a5e5b.ts',//'http://playready.directtaps.net/smoothstreaming/SSWSS720H264/SuperSpeedway_720.ism/Manifest',
             playerdiv: 'video-player',
             playertype:'videojs',
@@ -380,7 +307,12 @@
             controls: document.querySelector('.video-controls'),
             info: document.getElementById('info'),
             logger: log, //Function used for logging
-
+            playerPosition: {
+            	 x: '10px',
+                 y: '150px',
+                 width: '45%',
+                 height: '50%'
+            },
             playlist:[{
             	sources: [{
             	    src: 'http://cache.m.ptqy.gitv.tv/mus/text/208853801/edb1217147959738081edd7b4fb26dcc/afbe8fd3d73448c9//20180205/df/e1/11dbefbd8e654f764b20e25157f324ad.m3u8?qd_originate=tmts_py&tvid=925446900&bossStatus=0&qd_vip=0&px=&qd_src=04075022081000000000&prv=&previewType=&previewTime=&from=&qd_time=1519808492162&qd_p=ddef5632&qd_asc=c855c94dd4bcc9b40dafc101312c21cf&qypid=925446900_04000000001000000000_4&qd_k=04b354059bbebd66b6a774213a486138&isdol=0&code=2&vf=026065678e81cc5c60990ab8a66cb796&np_tag=nginx_part_tag&APPID_IS_IQIYI=true',
@@ -437,23 +369,22 @@
                 log("The display width is " + display.resolutionWidth);
                 config.resolutionWidth = 1920;//display.resolutionWidth;
 
+                registerMouseEvents();
                 // initialize player - loaded from videoPlayer.js
                 if(config.playertype =="avplay"){
                 	player = new VideoPlayer(config);
                 }else if(config.playertype=="videojs"){
                 	player = new VideoJSPlayer(config);
+                	player.play();
                 }else{
                 	
                 }
-                registerMouseEvents();
+                
             },
             function(error) {
                 log("An error occurred " + error.message);
             }
         );
         
-        //
-        initAudio();
-
     }
 }());

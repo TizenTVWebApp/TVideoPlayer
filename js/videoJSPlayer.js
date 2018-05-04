@@ -38,11 +38,11 @@ function VideoJSPlayer(config) {
     var defaultResolutionWidth = 1920;
     var resolutionWidth = config.resolutionWidth;
 
-    var playerCoords = {
-        x: Math.floor(10 * resolutionWidth / defaultResolutionWidth),
-        y: Math.floor(300 * resolutionWidth / defaultResolutionWidth),
-        width: Math.floor(854 * resolutionWidth / defaultResolutionWidth),
-        height: Math.floor(480 * resolutionWidth / defaultResolutionWidth)
+    var playerCoords = config.playerPosition|| {
+        x: Math.floor(10 * resolutionWidth / defaultResolutionWidth)+'px',
+        y: Math.floor(300 * resolutionWidth / defaultResolutionWidth)+'px',
+        width: defaultResolutionWidth+'px',
+        height: defaultResolutionWidth+'px'
     };
 
     /**
@@ -53,35 +53,60 @@ function VideoJSPlayer(config) {
     
     var playlist = config.playlist;
     
+    var containner ;
+    
     if(document.getElementById(config.playerdiv)){}else{
-    	var containner = document.createElement("div");
+    	containner = document.createElement("div");
     	containner.id= "videojsContainner";
-    	var width = playerCoords.width+'px';
-    	var height = playerCoords.height+'px';
-    	var left = playerCoords.x+'px';
-    	var top = playerCoords.y+'px';
+    	containner.setAttribute("right","setfullscreen");  
+    	var width = playerCoords.width;
+    	var height = playerCoords.height;
+    	var left = playerCoords.x;
+    	var top = playerCoords.y;
     	containner.style.cssText = 'position:absolute; width:'+width+';height:'+height+';top:'+top+';left:'+left+';';
     	document.body.appendChild(containner);
     	var div = document.createElement("video");
     	div.id = config.playerdiv;
     	
     	//div.style.cssText = 'z-index:-99;width:'+width+';height:'+height+';top:0px;left:0px';         
-    	div.setAttribute("class","video-js");  
+    	div.setAttribute("class","video-js vjs-default-skin");  
     	div.setAttribute("controls",""); 
     	div.setAttribute("preload","auto");
     	
     	containner.appendChild(div);
+    	
     }
-    var player = document.getElementById(config.playerdiv);
-    console.log(player);
     // create videojs Instance , fluid:true -> size is adaptive with the containner size
-    var videoplayer = videojs(config.playerdiv,{fluid:true});
+    var videoplayer = videojs(config.playerdiv,{
+    	fluid:true,
+    	plugins:{
+    		//shoot:{}   can not capture video element in tizen because crossOrigin not support，
+    		/*vttThumbnails:{
+    			src:'lib/videojsPlugin/thumbnails/examples/test.vtt'
+    		}*/
+    	}});
+    
     //if tizen , "progress" event disable, use manual loading buffered event
     if(isTizen){
-    videoplayer.tech_.__proto__.featuresProgressEvents=0;
+    videoplayer.tech_.__proto__.featuresProgressEvents=false;
+    videoplayer.tech_.__proto__.featuresVolumeControl=false;
+    videoplayer.tech_.__proto__.featuresPlaybackRate =true;
+    videoplayer.tech_.__proto__.featuresFullscreenResize =false;
     console.log(videoplayer.tech_);
     }    
     videoplayer.playlist(playlist);
+    
+    var that = this;
+    console.log(this);
+    containner.addEventListener("click", function(){
+    	 if (videoplayer.isFullscreen() === false) {
+             videoplayer.requestFullscreen();
+         	//videoplayer.setDisplayRect(0, 0, 1920, 1080);
+             //player.classList.add('fullscreenMode');
+            // controls.classList.add('fullscreenMode');
+             videoplayer.isFullscreen(true);
+         }
+    });
     //videoplayer.bitrateGraph();
     videoplayer.ready(function() {
     	  //enable hotkey handle
@@ -90,7 +115,8 @@ function VideoJSPlayer(config) {
 		  this.hotkeys({
 			    volumeStep: 0.1,
 			    seekStep: 5,
-			    alwaysCaptureHotkeys:true,
+			    alwaysCaptureHotkeys:false,
+			    activeOnlyInFullScreen:true,
 			    enableModifiersForNumbers: false
 			  });
 		  videoplayer.playlist.autoadvance(0);
@@ -98,6 +124,9 @@ function VideoJSPlayer(config) {
     
 
     return {
+    	init:function(){
+    		
+    	},
         /**
          * Function to initialize the playback.
          * @param {String} url - content url, if there is no value then take url from config
@@ -152,6 +181,7 @@ function VideoJSPlayer(config) {
                 log('videoPlayer open: ' + url);
                 var timecode =0;
                 var initdone = false;
+                videoplayer.vttThumbnails({src:'lib/videojsPlugin/thumbnails/examples/test.vtt'});
                 videoplayer.src(url);
                 videoplayer.on("loadedmetadata",function(){
                 	log("loadedmetadata");
@@ -165,6 +195,7 @@ function VideoJSPlayer(config) {
                 	}
                 });
                 videoplayer.on("timeupdate",function(){
+                	//console.log(videoplayer.tech_);
                 	//console.log("timeupdate"+videoplayer.currentTime());
                 	});
                 videoplayer.on("progress",function(){
@@ -273,6 +304,9 @@ function VideoJSPlayer(config) {
             log("rew");
         	log(l);
         },
+        isFullScreen:function(){
+        	return videoplayer.isFullscreen();
+        },
         /**
          * Set flag to play UHD content.
          * @param {Boolean} isEnabled - Flag to set UHD.
@@ -375,8 +409,8 @@ function VideoJSPlayer(config) {
             if (videoplayer.isFullscreen() === false) {
                 videoplayer.requestFullscreen();
             	//videoplayer.setDisplayRect(0, 0, 1920, 1080);
-                player.classList.add('fullscreenMode');
-                controls.classList.add('fullscreenMode');
+                //player.classList.add('fullscreenMode');
+               // controls.classList.add('fullscreenMode');
                 videoplayer.isFullscreen(true);
             } else {
                 log('Fullscreen off');
