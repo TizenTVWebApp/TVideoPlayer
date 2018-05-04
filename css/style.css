@@ -4,8 +4,8 @@ body {
     font-size: 1.5em;
     padding: 0;
     margin: 0;
-    width: 1920px;
-    height: 1080px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     background-color: #222222;
     color: silver;
@@ -44,15 +44,6 @@ p {
     float: left;
     padding: 10px;
     box-sizing: border-box;
-}
-
-.left {
-    width: 46%;
-}
-
-.right {
-    width: 54%;
-    font-size: 0.9em;
 }
 
 .logs {

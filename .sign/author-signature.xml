@@ -10,13 +10,17 @@
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
 <DigestValue>ijjaB8GEO5OJP/jK6n7Hr3vZFI9gy8ocoDhviViKNnU=</DigestValue>
 </Reference>
+<Reference URI="TizenIndex%2Findex.html">
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+<DigestValue>hvoTtot8GDwOZwqXaaJ+evX0NDSeNkd8Zl0//aAPnHo=</DigestValue>
+</Reference>
 <Reference URI="config.xml">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
 <DigestValue>FgBbeMx8K8BIof/CkCegKOmeCfHN9eH3859UCHPKtxU=</DigestValue>
 </Reference>
 <Reference URI="css%2Fstyle.css">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>Sk3er3SF1gMtMZovkEEW3V5zzNxTQsLqwqbeRJuJCfk=</DigestValue>
+<DigestValue>3A91ikvWM4qnNm8Osql3foOS+tnEPBVAYDyRwA1HaEY=</DigestValue>
 </Reference>
 <Reference URI="icon.png">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
@@ -24,11 +28,11 @@
 </Reference>
 <Reference URI="index.html">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>VcnktbPIqYFjgayqwJwpMGvb36gW1sUzgqyWnK3jbnw=</DigestValue>
+<DigestValue>hvoTtot8GDwOZwqXaaJ+evX0NDSeNkd8Zl0//aAPnHo=</DigestValue>
 </Reference>
 <Reference URI="js%2Fmain.js">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
-<DigestValue>nITr2AMTv3+P1oQh+IAaSSAeKEHZ0ubFsi99pcFmpoI=</DigestValue>
+<DigestValue>4nPDrwoU/KkAIj4+ubqbs8Kh9kh6z2Qq3WCKGAOEyKc=</DigestValue>
 </Reference>
 <Reference URI="js%2FvideoJSPlayer.js">
 <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
@@ -259,9 +263,9 @@
 </Reference>
 </SignedInfo>
 <SignatureValue>
-X/XAXgS9FJYV3qK/BB3209V59+dxl0XJhdIn9Wms/+Rq8Joy7Ojzpn3VXWrguNDw5LngMUFwRVN6
-Agg22ZkhCKEgFORdoV3PxYK0F4sQRZM76mSO6zTbwNjSD/vBK+jPhYI6S0GKuWjy/ZyyxXWD68ur
-sQ2WAuAiJa7e5HZ//mc=
+Vc92J5oW4kNFC0DbzniaXrLvwkBnIfDXDFXaMggvCUKSqAZgBb15f/qiQhFStBf8Fd+baenLYdAE
+2J9TwMqSLPg+LbdpjVaR7oreB2jr3djtAlnCEa6l405iO7GhpL/vvI55RQuKpm6VS/zxLUtxpgqH
+b+E1dnb1Iz1IciV0iEo=
 </SignatureValue>
 <KeyInfo>
 <X509Data>

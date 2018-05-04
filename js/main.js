@@ -257,13 +257,14 @@
 
         if (window.tizen === undefined) {
             log('This application needs to be run on Tizen device');
-            return;
+            //return;
         }
 
+        if(window.tizen){
         displayVersion();
         registerKeys();
         registerKeyHandler();
-
+       
         /**
          * Enable multitasking
          */
@@ -279,7 +280,7 @@
                 //player.resume();
             }
         });
-
+        }
         document.getElementById("setfullscreen").addEventListener("click", function(){
         	player.toggleFullscreen();
         });
@@ -309,8 +310,8 @@
             logger: log, //Function used for logging
             playerPosition: {
             	 x: '10px',
-                 y: '150px',
-                 width: '45%',
+                 y: '300px',
+                 width: '48%',
                  height: '50%'
             },
             playlist:[{
@@ -363,6 +364,7 @@
 
 
         //Check the screen width so that the AVPlay can be scaled accordingly
+        if(window.tizen){
         tizen.systeminfo.getPropertyValue(
             "DISPLAY",
             function (display) {
@@ -385,6 +387,14 @@
                 log("An error occurred " + error.message);
             }
         );
+        }else{
+        	 config.resolutionWidth = 1920;//display.resolutionWidth;
+
+             // initialize player - loaded from videoPlayer.js
+       
+             	player = new VideoJSPlayer(config);
+             	player.play();
+        }
         
     }
 }());
